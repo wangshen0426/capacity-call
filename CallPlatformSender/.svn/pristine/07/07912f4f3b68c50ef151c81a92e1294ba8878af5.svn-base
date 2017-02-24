@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <!DOCTYPE struts PUBLIC 
+	"-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
+	"http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<!--
+		用户相关 <package name="user" extends="struts-default"> <action
+		name="Login" class="loginAction"> <result>/index.jsp</result> <result
+		name="input">/login.jsp</result> </action> </package>
+	-->
+	<!-- 设置Struts 2默认的ObjectFactory为spring -->
+	<constant name="struts.objectFactory" value="spring" />
+	<!-- 注解的action配置改变时候不需要重新启动tomcat  -->
+	<constant name="struts.convention.classes.reload" value="true" />
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<!-- 开发模式 -->
+	<!-- 开发模式 -->
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />  
+	<constant name="struts.devMode" value="true" /> 
+	 <package name="struts-fileup" extends="struts-default">
+	   <interceptors>
+			<interceptor name="FileUp" class="com.cqut.interceptor.FileUpInterceptor"></interceptor>
+				<interceptor-stack name="FileUpStack">
+				<interceptor-ref name="FileUp"/>
+				<interceptor-ref name="defaultStack"/>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="FileUpStack"/><!--（这句是设置所有Action自动调用的拦截器堆栈）  -->
+  	</package>
+  	
+  	 <package name="struts-getMessage" extends="struts-fileup">
+  	 	<action name="getMessage" class="com.cqut.action.callBack.CallMessage" method="getMessage"></action>
+  	</package>
+
+	
+</struts>

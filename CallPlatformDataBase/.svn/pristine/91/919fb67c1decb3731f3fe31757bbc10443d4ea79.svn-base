@@ -1,0 +1,78 @@
+package com.cqut.action.memorial;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
+import javax.annotation.Resource;
+
+import com.cqut.dao.common.ICommonDao;
+import com.cqut.util.JJCommon;
+
+public class CreateMemorial {
+	private String userId;
+	private String memorialTime;
+	private String memorialPosition;
+	private String memorialText;
+	@Resource(name = "commonDao")
+	private ICommonDao commonDao;
+
+	public String getUserId() {
+		return userId;
+	}
+
+	@SuppressWarnings("deprecation")
+	public void setUserId(String userId) {
+		this.userId = URLDecoder.decode(userId);
+	}
+
+	public String getMemorialTime() {
+		return memorialTime;
+	}
+
+	@SuppressWarnings("deprecation")
+	public void setMemorialTime(String memorialTime) {
+		this.memorialTime = URLDecoder.decode(memorialTime);
+	}
+
+	public String getMemorialPosition() {
+		return memorialPosition;
+	}
+
+	public void setMemorialPosition(String memorialPosition) {
+		try {
+			this.memorialPosition = URLDecoder
+					.decode(memorialPosition, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public String getMemorialText() {
+		return memorialText;
+	}
+
+	public void setMemorialText(String memorialText) {
+		try {
+			this.memorialText = URLDecoder.decode(memorialText, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void exe() {
+		if (userId != null && memorialTime != null) {
+			StringBuilder memorialStb = new StringBuilder();
+			memorialStb.append(System.currentTimeMillis());
+			memorialStb.append(userId);
+
+			String sql = "insert into memorial (memorialId, memorialPosition, memorialText, memorialTime, userId) VALUES (?,?,?,?,?)";
+			Object[] param = { memorialStb.toString(), memorialPosition,
+					memorialText, memorialTime, userId };
+
+			commonDao.execute(sql, param);
+			JJCommon.sendMessageToJS("true");
+		} else {
+			JJCommon.sendMessageToJS("false");
+		}
+	}
+}

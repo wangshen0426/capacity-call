@@ -1,0 +1,92 @@
+package com.cqut.action.getLink;
+
+import java.net.URLDecoder;
+
+import javax.annotation.Resource;
+
+import com.cqut.dao.common.ICommonDao;
+import com.cqut.util.JJCommon;
+
+public class RespondMessage {
+	private String informationesId;
+	private String receiptType;
+	private String groupId;
+	private String userId;
+	@Resource(name = "commonDao")
+	private ICommonDao commonDao;
+
+	public String getGroupId() {
+		return groupId;
+	}
+
+	@SuppressWarnings("deprecation")
+	public void setGroupId(String groupId) {
+		this.groupId = URLDecoder.decode(groupId);
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	@SuppressWarnings("deprecation")
+	public void setUserId(String userId) {
+		this.userId = URLDecoder.decode(userId);
+	}
+
+	public String getInformationesId() {
+		return informationesId;
+	}
+
+	@SuppressWarnings("deprecation")
+	public void setInformationesId(String informationesId) {
+		this.informationesId = URLDecoder.decode(informationesId);
+	}
+
+	public String getReceiptType() {
+		return receiptType;
+	}
+
+	@SuppressWarnings("deprecation")
+	public void setReceiptType(String receiptType) {
+		this.receiptType = URLDecoder.decode(receiptType);
+	}
+
+	public void exe() {
+		if (informationesId != null && receiptType != null && groupId != null
+				&& userId != null) {
+			String[] sqls;
+			Object[] params;
+			// 回应同意‘1’
+			if (Integer.parseInt(receiptType) == 1) {
+				StringBuilder groupMemberIdStb = new StringBuilder();
+				groupMemberIdStb.append(System.currentTimeMillis());
+				groupMemberIdStb.append(groupId);
+				groupMemberIdStb.append(userId);
+
+				String insertSql = "insert into groupmember (groupMemberId, groupId, groupUserId) VALUES (?,?,?)";
+				Object[] insertParam = { groupMemberIdStb.toString(), groupId,
+						userId };
+				sqls = new String[2];
+				sqls[1] = insertSql;
+				params = new Object[2][];
+				params[1] = insertParam;
+			} else {
+				sqls = new String[1];
+				params = new Object[1][];
+			}
+
+			Long currentTime = System.currentTimeMillis();
+			String updateSql = "update informationes set receiptType = ?, receiptTime = ? where informationesId = ?";
+			Object[] updateParam = { receiptType, currentTime, informationesId };
+
+			sqls[0] = updateSql;
+			params[0] = updateParam;
+			commonDao.executeForQueueParam(sqls, (Object[][]) params);
+
+			JJCommon.sendMessageToJS("true");
+
+		} else {
+			JJCommon.sendMessageToJS("");
+		}
+	}
+}

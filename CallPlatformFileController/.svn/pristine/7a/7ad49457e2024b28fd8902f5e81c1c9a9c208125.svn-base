@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <!DOCTYPE struts PUBLIC 
+	"-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
+	"http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<!-- 用户相关 <package name="user" extends="struts-default"> <action name="Login" 
+		class="loginAction"> <result>/index.jsp</result> <result name="input">/login.jsp</result> 
+		</action> </package> -->
+	<!-- 设置Struts 2默认的ObjectFactory为spring -->
+	<constant name="struts.objectFactory" value="spring" />
+	<!-- 注解的action配置改变时候不需要重新启动tomcat -->
+	<constant name="struts.convention.classes.reload" value="true" />
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<!-- 开发模式 -->
+	<!-- 开发模式 -->
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+	<constant name="struts.devMode" value="true" />
+
+	<package name="struts-access" extends="struts-default">
+		<interceptors>
+			<interceptor name="accessInterceptor"
+				class="com.cqut.interceptor.AccessInterceptor"></interceptor>
+			<interceptor-stack name="accessInterceptor">
+				<interceptor-ref name="accessInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="accessInterceptor" /><!--（这句是设置所有Action自动调用的拦截器堆栈） -->
+	</package>
+	
+	<package name="main" extends="struts-access">
+		<action name="test" class="com.cqut.action.Test" method="exe"></action>
+		<!-- 存储语音 -->
+		<action name="getVoiceServerInfo" class="com.cqut.action.GetVoiceServerInfo"
+			method="exe"></action>
+		<!-- 单文件查找 -->
+		<action name="searchOneFile" class="com.cqut.action.SearchOneFile"
+			method="exe"></action>
+		<!-- 多文件查找 -->
+		<action name="searchMoreFile" class="com.cqut.action.SearchMoreFile"
+			method="exe"></action>
+		<!-- 定时接收服务器文件名 -->
+		<action name="receiveFileNames" class="com.cqut.action.ReceiveFileNames"
+			method="exe"></action>
+		<!-- 文件整合传输回复 -->
+		<action name="receiveServerReturn" class="com.cqut.action.ReceiveServerReturn"
+			method="exe"></action>
+	</package>
+
+</struts>

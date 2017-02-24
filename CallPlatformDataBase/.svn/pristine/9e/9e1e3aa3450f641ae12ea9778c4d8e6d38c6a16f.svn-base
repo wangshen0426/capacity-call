@@ -1,0 +1,64 @@
+package com.cqut.action.homepage;
+
+import java.net.URLDecoder;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import com.cqut.dao.common.ICommonDao;
+import com.cqut.util.JJCommon;
+
+public class GetReceiptList {
+	private String userId;
+	@Resource(name = "commonDao")
+	private ICommonDao commonDao;
+
+	public String getUserId() {
+		return userId;
+	}
+
+	@SuppressWarnings("deprecation")
+	public void setUserId(String userId) {
+		this.userId = URLDecoder.decode(userId);
+	}
+
+	public void exe() {
+		// 获取callTaskId、callTaskName、receiptContent、time
+		if (userId != null) {
+			String sql = "select a.callTaskId, ct.callTaskName, ctk.keyText, a.taskVoiceTime, callTime, a.recallTime, a.level0 from calltask ct, calltaskkey ctk, receipt r, (SELECT max(level0) as level0, tv.taskVoiceId, tv.taskVoiceTime, tv.callTaskId, r.recallTime from taskvoice tv, receipt r, (select callTaskId from receipt r, taskvoice tv where tv.taskVoiceId = r.taskVoiceId and receiptMan = ?) c where r.taskVoiceId = tv.taskVoiceId and tv.callTaskId = c.callTaskId and r.receiptMan = ? GROUP BY c.callTaskId) a where ct.callTaskId = a.callTaskId and a.taskVoiceId = r.taskVoiceId and r.receiptKey = ctk.taskKeyId and receiptMan = ?";
+			Object[] param = { userId, userId, userId };
+
+			List<Object> list = commonDao.executeAndReturn(sql, param);
+			if (list != null && list.size() > 0) {
+				int length = list.size();
+				JSONObject all = new JSONObject();
+				JSONArray ja = new JSONArray();
+				for (int i = 0; i < length; i++) {
+					Object[] obj = (Object[]) list.get(i);
+					JSONObject jo = new JSONObject();
+					jo.put("callTaskId", obj[0]);
+					jo.put("callTaskName", obj[1]);
+					if (obj[2] == null) {
+						jo.put("receiptContent", 0);
+					} else {
+						jo.put("receiptContent", obj[2]);
+					}
+					jo.put("receiptTime", obj[3]);// 最新回复时间
+					jo.put("callTaskTime", obj[4]);// 任务发布时间
+					jo.put("recallTime", obj[5]);// 重播次数
+					jo.put("allRecallTime", obj[6]);// 任务重播次数
+					ja.add(jo);
+				}
+				all.put("json", ja);
+				JJCommon.sendMessageToJS(all.toString());
+			} else {
+				JJCommon.sendMessageToJS("{}");
+			}
+		} else {
+			JJCommon.sendMessageToJS("");
+		}
+	}
+}

@@ -1,0 +1,25 @@
+package com.cqut.action;
+
+import javax.annotation.Resource;
+
+import org.springframework.beans.factory.InitializingBean;
+
+import com.cqut.action.messageDeal.MessageDeal;
+
+public class Init implements InitializingBean{
+	@Resource
+	private MessageDeal messageDeal;
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				messageDeal.init();
+				//定时删除文件
+			}
+		}).start();
+		
+	}
+
+}

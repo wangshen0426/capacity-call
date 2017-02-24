@@ -1,0 +1,17 @@
+#basepath
+taskBasePath=D\:/YinZiCallCenter/CallTask
+voiceBasePath=D\:/YinZiCallCenter/Voice
+customizedBasePath=D\:/YinZiCallCenter
+#recall
+recallAdress=http://localhost:8080/CallPlatformSender/getMessage.action?pass=CqUtB305
+recallParam=callKey
+#maxUpdateSize
+maxUpdateSize=104857600
+pass=CqUtB305
+parallelMaxNumber=1
+#url
+databaseServerURL=http\://10.21.1.26\:8080/CallPlatformDataBase/getNotSendVoice.action
+fileServerURL=http\://10.21.1.26\:8080/CallPlatformFileController/searchMoreFile.action
+updateDatabaseURL=http\://10.21.1.26\:8080/CallPlatformDataBase/getUserReceipt.action
+#oneceStopOtherGoTime
+oneceStopOtherGoTime=60000

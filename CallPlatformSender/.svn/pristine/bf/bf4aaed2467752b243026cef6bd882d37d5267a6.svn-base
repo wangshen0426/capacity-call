@@ -1,0 +1,133 @@
+package com.cqut.action.messageDeal;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Component;
+
+import com.cqut.entity.ExchangeMessage;
+import com.cqut.entity.PortPerTask;
+import com.cqut.service.DBAction.DateBaseService;
+import com.cqut.util.FileRequest;
+import com.cqut.util.HttpRequest;
+import com.cqut.util.RequestEntityDataHTTP;
+import com.cqut.util.SystemUtil;
+import com.cqut.util.WriteFile;
+@Component
+public class MessageDeal {
+	private static final ConcurrentMap<String, PortPerTask> taskCount = new ConcurrentHashMap<String, PortPerTask>();
+	public static final String databaseURL = SystemUtil.getSystemParameter("databaseServerURL");
+	public static final String fileURL = SystemUtil.getSystemParameter("fileServerURL");
+	public static final long oneceStopOtherGoTime = Long.parseLong(SystemUtil.getSystemParameter("oneceStopOtherGoTime"));
+
+	@Resource
+	private DateBaseService dateBaseService;
+	private static final int parallelMaxNumber = Integer.parseInt(SystemUtil.getSystemParameter("parallelMaxNumber"));
+	public void deal(List<ExchangeMessage> emList,int[] portList){
+		String[] fileNameList = WriteFile.file(emList);
+		dateBaseService.DBOperation(emList, fileNameList,portList);
+	}
+	
+	private void addToCountMap(List<ExchangeMessage> emList,int[] portList) {
+		int length = emList.size();
+		for(int i = 0;i < length;i++) {
+			PortPerTask po = new PortPerTask(emList.get(i).receiver.length,portList[i]);
+			taskCount.put(emList.get(i).taskVoiceCode, po);
+		}
+	}
+	
+	public boolean decrement(String taskVoiceCode) {
+		final PortPerTask po = taskCount.get(taskVoiceCode);
+		if(po!=null) {
+			po.decrement();
+			if(po.isEmpty()) {
+				taskCount.remove(taskVoiceCode);
+				new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						getDataForPort(1,po.getPort());
+					}
+				}).start();
+			}
+			if(po.isFirst()) {
+				po.setFirst(false);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void init() {
+		getData(parallelMaxNumber);
+	}
+	
+	public void getDataForPort(int length,int port) {
+		while(true) {
+			List<ExchangeMessage> list = getDataFromServer(length);
+			if(list!=null&& list.size() > 0) {
+				int[] portList = new int[length];
+				for(int i = 0;i < length;i++) {
+					portList[i] = port;
+				}
+				addToCountMap(list,portList);
+				deal(list,portList);
+				break;
+			}
+			else {
+				try {
+					Thread.sleep(oneceStopOtherGoTime);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			
+		}
+		
+	}
+	
+	public void getData(int length) {
+		while(true) {
+			List<ExchangeMessage> list = getDataFromServer(length);
+			if(list!=null&& list.size() > 0) {
+				int[] portList = new int[length];
+				int port = 0;
+				for(int i = 0;i < length;i++) {
+					portList[i] = port;
+					port++;
+					if(port == parallelMaxNumber) {
+						port = 0;
+					}
+				}
+				addToCountMap(list,portList);
+				deal(list,portList);
+				break;
+			}
+			else {
+				try {
+					Thread.sleep(oneceStopOtherGoTime);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	}
+	
+	private List<ExchangeMessage> getDataFromServer(int length) {
+		String[][] param = new String[1][2];
+		param[0][0] = "limit";
+		param[0][1] = length+"";
+		List<ExchangeMessage> list = RequestEntityDataHTTP.sendGet(databaseURL, param,ExchangeMessage.class);
+		if(list!=null) {
+			FileRequest.sendPost(fileURL,list);
+		}
+		return list;
+	}
+
+}

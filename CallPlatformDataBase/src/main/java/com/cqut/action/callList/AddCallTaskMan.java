@@ -1,0 +1,75 @@
+package com.cqut.action.callList;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.Iterator;
+
+import javax.annotation.Resource;
+
+import net.sf.json.JSONObject;
+
+import com.cqut.dao.common.ICommonDao;
+import com.cqut.util.JJCommon;
+
+public class AddCallTaskMan {
+	private String callTaskId;
+	private String linkmanIdStr;
+	@Resource(name = "commonDao")
+	private ICommonDao commonDao;
+
+	public String getCallTaskId() {
+		return callTaskId;
+	}
+
+	@SuppressWarnings("deprecation")
+	public void setCallTaskId(String callTaskId) {
+		this.callTaskId = URLDecoder.decode(callTaskId);
+	}
+
+	public String getLinkmanIdStr() {
+		return linkmanIdStr;
+	}
+
+	public void setLinkmanIdStr(String linkmanIdStr) {
+		try {
+			this.linkmanIdStr = URLDecoder.decode(linkmanIdStr, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@SuppressWarnings("rawtypes")
+	public void exe() {
+		if (callTaskId != null && linkmanIdStr != null) {
+			JSONObject jo = JSONObject.fromObject(linkmanIdStr);
+			int length = jo.size();
+			String[] linkmanId = new String[length];
+			int index = 0;
+			Iterator iterator = jo.keys();
+			while (iterator.hasNext()) {
+				linkmanId[index++] = (String) iterator.next();
+			}
+
+			StringBuilder sql = new StringBuilder();
+			sql.append("insert into sessionman (sessionManId, callTaskId, userId) VALUES ");
+			Object[] param = new Object[length * 3];
+			int num = 0;
+			for (int i = 0; i < length; i++) {
+				StringBuilder sessionmanId = new StringBuilder();
+				sessionmanId.append(System.currentTimeMillis());
+				sessionmanId.append(callTaskId);
+				sessionmanId.append(linkmanId[i]);
+
+				sql.append("(?,?,?),");
+				param[num++] = sessionmanId.toString();
+				param[num++] = callTaskId;
+				param[num++] = linkmanId[i];
+			}
+			sql.setCharAt(sql.length() - 1, ' ');
+			commonDao.execute(sql.toString(), param);
+			JJCommon.sendMessageToJS("true");
+		} else {
+			JJCommon.sendMessageToJS("{}");
+		}
+	}
+}

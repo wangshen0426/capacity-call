@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"  
+    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"   
+    xsi:schemaLocation="http://www.springframework.org/schema/beans  
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd  
+           http://www.springframework.org/schema/context  
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd  
+           http://www.springframework.org/schema/aop  
+           http://www.springframework.org/schema/aop/spring-aop-2.5.xsd  
+           http://www.springframework.org/schema/tx   
+           http://www.springframework.org/schema/tx/spring-tx-2.5.xsd 
+           http://www.directwebremoting.org/schema/spring-dwr 
+    	   http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd">  
+			
+    <!-- 用注解方式注入bean -->
+	<context:annotation-config/>
+    <!-- 扫描包 -->
+    <context:component-scan base-package="com.cqut.*"/>
+    <!-- 指定数据库配置文件的位置 -->
+    <context:property-placeholder location="classpath:config/jdbc.properties"/> 
+    <!-- 指定数据源，解析数据库配置文件，并设置数据源的属性 -->
+     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="${driverClassName}"/>
+	    <property name="url" value="${url}"/>
+	    <property name="username" value="${username}"/>
+	    <property name="password" value="${password}"/>
+	    <property name="maxActive" value="${maxActive}"/>
+	    <property name="maxIdle" value="${maxIdle}"/>
+	</bean>
+    <!-- hibernate sessionFactory 创建 -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">  
+        <property name="dataSource">
+        	<ref bean="dataSource"/>
+        </property> 
+        <property name="packagesToScan">
+            <list>
+            	<!-- 加入实体的位置 -->
+                <value>com.cqut.entity.*</value>
+                <value>com.cqut.entity.*.*</value>
+                <value>com.cqut.service.*</value>
+                <value>com.cqut.service.*.*</value>
+            </list>
+        </property>  
+         <!-- 指定hibernate命名查询配置文件的位置 -->
+   	 	<property name="mappingResources">
+			<list>
+				
+			</list>
+		</property>
+        <property name="hibernateProperties">
+            <props>  
+		     	<prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">false</prop>  
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+        			<prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>  
+            </props>
+        </property>
+    </bean>
+    
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">  
+       <property name="sessionFactory" ref="sessionFactory"></property>  
+    </bean>
+    
+    <!-- 声明Hibernate事务管理，注入Session工厂 -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+       <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+     
+    <!-- 通过注解的方式，进行事务管理 -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+    <bean id="springUtil" class="util.SpringUtil"/>
+    <bean id="init" class="com.cqut.action.Init"/>
+    
+</beans> 

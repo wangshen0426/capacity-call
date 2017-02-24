@@ -1,0 +1,124 @@
+package com.cqut.action.callList;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import com.cqut.dao.common.ICommonDao;
+import com.cqut.util.JJCommon;
+
+public class CreateTaskVoice {
+	private String fileId;// 最多为60个汉字
+	private String callTaskId;
+	private String type;
+	private String voiceTime;
+	@Resource(name = "commonDao")
+	private ICommonDao commonDao;
+
+	public String getVoiceTime() {
+		return voiceTime;
+	}
+
+	@SuppressWarnings("deprecation")
+	public void setVoiceTime(String voiceTime) {
+		this.voiceTime = URLDecoder.decode(voiceTime);
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	@SuppressWarnings("deprecation")
+	public void setType(String type) {
+		this.type = URLDecoder.decode(type);
+	}
+
+	public String getFileId() {
+		return fileId;
+	}
+
+	public void setFileId(String fileId) {
+		try {
+			this.fileId = URLDecoder.decode(fileId, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public String getCallTaskId() {
+		return callTaskId;
+	}
+
+	@SuppressWarnings("deprecation")
+	public void setCallTaskId(String callTaskId) {
+		this.callTaskId = URLDecoder.decode(callTaskId);
+	}
+
+	public void exe() {
+		if (fileId != null && callTaskId != null) {
+			// String userSql =
+			// "select level0, lk.linkUserId from taskvoice tv, linkman lk, sessionman sm where tv.callTaskId = sm.callTaskId and sm.userId = lk.linkUserId and level0 = (select MAX(level0) from taskvoice where callTaskId = ?) and tv.callTaskId = ?";
+			// Object[] userParam = { callTaskId, callTaskId };
+			String userSql = "(SELECT userId FROM sessionman where callTaskId = ?) UNION (select max(level0) userId from taskvoice where callTaskId = ?)";
+			Object[] userParam = { callTaskId, callTaskId };
+			List<Object> linkUserList = commonDao.executeAndReturn(userSql,
+					userParam);
+
+			String test2Sql = "select max(recallTime) from taskvoice tv, receipt r where tv.taskVoiceId = r.taskVoiceId and tv.callTaskId = ?";
+			Object[] test2Param = { callTaskId };
+			List<Object> test2 = commonDao.executeAndReturn(test2Sql,
+					test2Param);
+			int max2 = 0;
+			if (test2.get(0) != null) {
+				max2 += (Integer) test2.get(0);
+			}
+
+			if (linkUserList != null && linkUserList.size() > 1) {
+				int length = linkUserList.size();
+				int max = 1;
+				if (linkUserList.get(length - 1) != null) {
+					max += (Integer) linkUserList.get(length - 1);
+				}
+				Long currentTime = System.currentTimeMillis();
+				StringBuilder taskVoiceIdStb = new StringBuilder();
+				taskVoiceIdStb.append(currentTime);
+				taskVoiceIdStb.append(callTaskId);
+
+				String taskVoiceSql = "insert into taskvoice (taskVoiceId, callTaskId, fileId, taskVoiceTime, type, sendState, level0, voiceTime) VALUES (?,?,?,?,?,?,?,?)";
+				Object[] taskVoiceParam = { taskVoiceIdStb.toString(),
+						callTaskId, fileId, currentTime,
+						Integer.parseInt(type), 0, max, voiceTime };
+
+				StringBuilder receiptStb = new StringBuilder();
+				receiptStb
+						.append("insert into receipt (receiptId, recallTime, receiptMan, taskvoiceId) VALUES ");
+				Object[] receiptParam = new Object[length * 4];
+				int receiptIndex = 0;
+				for (int i = 0; i < length; i++) {
+					StringBuilder receiptIdStb = new StringBuilder();
+					receiptIdStb.append(currentTime);
+					receiptIdStb.append(taskVoiceIdStb.toString());
+					receiptIdStb.append(linkUserList.get(i));
+
+					receiptStb.append("(?,?,?,?),");
+					receiptParam[receiptIndex++] = receiptIdStb.toString();
+					receiptParam[receiptIndex++] = max2;
+					receiptParam[receiptIndex++] = linkUserList.get(i);
+					receiptParam[receiptIndex++] = taskVoiceIdStb.toString();
+				}
+				receiptStb.setCharAt(receiptStb.length() - 1, ' ');
+
+				String[] sqls = { taskVoiceSql, receiptStb.toString() };
+				Object[][] params = { taskVoiceParam, receiptParam };
+				commonDao.executeForQueueParam(sqls, params);
+				JJCommon.sendMessageToJS("true");
+			} else {
+				JJCommon.sendMessageToJS("{}");
+			}
+		} else {
+			JJCommon.sendMessageToJS("");
+		}
+	}
+}

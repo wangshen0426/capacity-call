@@ -1,0 +1,61 @@
+package com.cqut.action.getGroup;
+
+import java.net.URLDecoder;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import com.cqut.dao.common.ICommonDao;
+import com.cqut.util.JJCommon;
+
+public class GetMasterOrMember {
+	private String groupId;
+	@Resource(name = "commonDao")
+	private ICommonDao commonDao;
+
+	public String getGroupId() {
+		return groupId;
+	}
+
+	@SuppressWarnings("deprecation")
+	public void setGroupId(String groupId) {
+		this.groupId = URLDecoder.decode(groupId);
+	}
+
+	public void exe() {
+		if (groupId != null) {
+			// String sql =
+			// "(select u.userId, userName from user u, groupes gr WHERE u.userId = gr.groupMasterId and groupId = ?) UNION (select u.userId,u.userName from user u, groupmember grm where u.userId = grm.userId and grm.groupId = ?)";
+			String sql = "(select u.userId, userName from user u, groupes gr WHERE u.userId = gr.groupMasterId and groupId = ?) UNION (select lk.linkUserId,lk.linkmanName from linkman lk, groupmember grm where lk.linkUserId = grm.groupUserId and grm.groupId = ?)";
+			Object[] param = { groupId, groupId };
+			List<Object> list = commonDao.executeAndReturn(sql, param);
+
+			JSONObject all = new JSONObject();
+			Object[] obj = (Object[]) list.get(0);
+			all.put("groupMasterId", obj[0]);
+			all.put("groupMasterName", obj[1]);
+
+			if (list != null && list.size() > 0) {
+				int length = list.size();
+				JSONArray ja = new JSONArray();
+				for (int i = 1; i < length; i++) {
+					Object[] object = (Object[]) list.get(i);
+					JSONObject jo = new JSONObject();
+					jo.put("groupMemberId", object[0]);
+					jo.put("groupMemberName", object[1]);
+					ja.add(jo);
+				}
+				all.put("groupMemberNum", length);
+				all.put("groupMemberIdOrName", ja);
+			}
+			System.out.println(all.toString());
+			JJCommon.sendMessageToJS(all.toString());
+		} else {
+			JJCommon.sendMessageToJS("groupId is null");
+		}
+
+	}
+}

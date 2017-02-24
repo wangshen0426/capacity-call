@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="DemGarden"
+  id="myeclipse.1347778796009"
+  context-root="/DemGarden"
+  j2ee-spec="5.0"
+  archive="DemGarden.war">
+  <attributes>
+    <attribute name="webrootdir" value="/src/main/webapp" />
+  </attributes>
+</project-module>
+

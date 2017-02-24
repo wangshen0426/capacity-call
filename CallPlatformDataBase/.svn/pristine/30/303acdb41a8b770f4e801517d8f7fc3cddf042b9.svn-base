@@ -1,0 +1,24 @@
+##created by Apusic
+##Mon Jul 04 13:02:40 CST 2011
+#maxActive=100
+##password=cqut
+#password=B306c102
+##password=zy_123456789
+##url=jdbc\:mysql\://localhost\:3306/tmanagementtest?Unicode\=true&characterEncoding\=UTF-8
+#url=jdbc\:sqlserver\://10.21.1.27;instanceName\=DBSERVER2005;DatabaseName\=BankSecurity
+##url=jdbc\:sqlserver\://10.21.1.54;DatabaseName\=BankSecurity
+##url=jdbc\:sqlserver\://localhost;DatabaseName\=BankSecurity
+##driverClassName=com.mysql.jdbc.Driver
+#driverClassName=com.microsoft.sqlserver.jdbc.SQLServerDriver
+#minIdle=1
+#initialSize=1
+#maxIdle=8
+#username=sa
+driverClassName=com.mysql.jdbc.Driver
+url=jdbc\:mysql\://localhost\:3306/callPlatformDataBase?Unicode\=true&characterEncoding\=UTF-8
+username=root
+password=root
+maxActive=100
+maxIdle=30
+maxWait=500
+defaultAutoCommit=true

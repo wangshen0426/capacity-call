@@ -1,0 +1,8 @@
+maxActive=100
+password=cqut
+url= jdbc\:microsoft\:sqlserver\://localhost\:1433;SelectMethod\=cursor;DatabaseName\=YinZi_Call
+driverClassName=com.microsoft.jdbc.sqlserver.SQLServerDriver
+minIdle=1
+initialSize=1
+maxIdle=8
+username=sa

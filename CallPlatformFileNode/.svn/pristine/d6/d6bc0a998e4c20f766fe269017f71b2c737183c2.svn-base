@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Struts2Diagram version="2.0">
+  <package name="default" location="1844,10" size="280,770">
+    <action name="notFound" location="65,687" size="150,41">
+      <result name="success">
+        <resourceEdge source="success" routing="0" target="error.jsp" />
+      </result>
+    </action>
+    <action name="error" location="65,57" size="150,41">
+      <result name="success">
+        <resourceEdge source="success" routing="0" target="error.jsp" />
+      </result>
+    </action>
+  </package>
+  <package name="bbs" location="199,290" size="1365,350">
+    <action name="notFound" location="65,57" size="150,41">
+      <result name="success">
+        <resourceEdge source="success" routing="0" target="error.jsp" />
+      </result>
+    </action>
+    <action name="error" location="65,162" size="150,41">
+      <result name="success">
+        <resourceEdge source="success" routing="0" target="error.jsp" />
+      </result>
+    </action>
+    <action name="*Action" location="1150,68" size="150,230">
+      <result name="login">
+        <resourceEdge source="login" routing="0" target="login.jsp" />
+      </result>
+      <result name="success">
+        <resourceEdge source="success" routing="0" target="index.jsp" />
+      </result>
+      <result name="postlist">
+        <resourceEdge source="postlist" routing="0" target="postList.jsp" />
+      </result>
+      <result name="postview">
+        <resourceEdge source="postview" routing="0" target="postView.jsp" />
+      </result>
+      <result name="viewafterpost" />
+      <result name="viewafterreply" />
+      <result name="loginaction" />
+      <result name="postapost">
+        <resourceEdge source="postapost" routing="0" target="post.jsp" />
+      </result>
+      <result name="search">
+        <resourceEdge source="search" routing="0" target="search.jsp" />
+      </result>
+      <result name="error">
+        <resourceEdge source="error" routing="0" target="error.jsp" />
+      </result>
+    </action>
+  </package>
+  <package name="studentInfo" location="321,1375" size="280,245">
+    <action name="StudentInfoAction" location="65,57" size="150,41">
+      <result name="SUCCESS">
+        <resourceEdge source="SUCCESS" routing="0" target="studentinfo.jsp" />
+      </result>
+    </action>
+    <action name="StudyHistoryAction" location="65,162" size="150,41">
+      <result name="YES">
+        <resourceEdge source="YES" routing="0" target="StudyHistory.jsp" />
+      </result>
+    </action>
+  </package>
+  <package name="library" location="336,885" size="280,245">
+    <action name="doseachBookAction" location="65,57" size="150,41">
+      <result name="success">
+        <resourceEdge source="success" routing="0" target="searchResult.jsp" />
+      </result>
+    </action>
+    <action name="*Action" location="65,152" size="150,62">
+      <result name="SYSTEM">
+        <resourceEdge source="SYSTEM" routing="0" target="index.jsp" />
+      </result>
+      <result name="success">
+        <resourceEdge source="success" routing="0" target="index.jsp" />
+      </result>
+    </action>
+  </package>
+  <package name="JSON" location="1039,1374" size="180,71">
+    <action name="json" location="15,23" size="150,41">
+      <result name="success" />
+    </action>
+  </package>
+  <webResource name="error.jsp" path="/error.jsp" location="44,660" size="150,55" />
+  <webResource name="login.jsp" path="/login.jsp" location="429,135" size="150,55" />
+  <webResource name="index.jsp" path="/module/bbs/index.jsp" location="611,135" size="150,55" />
+  <webResource name="postList.jsp" path="/module/bbs/postList.jsp" location="849,135" size="150,55" />
+  <webResource name="postView.jsp" path="/module/bbs/postView.jsp" location="1090,135" size="150,55" />
+  <webResource name="post.jsp" path="/module/bbs/post.jsp" location="1348,135" size="150,55" />
+  <webResource name="search.jsp" path="/module/bbs/search.jsp" location="1622,415" size="150,55" />
+  <webResource name="studentinfo.jsp" path="/module/education/student/studentinfo.jsp" location="9,1395" size="150,55" />
+  <webResource name="StudyHistory.jsp" path="/module/education/student/StudyHistory.jsp" location="670,1500" size="150,55" />
+  <webResource name="searchResult.jsp" path="/module/library/front/searchResult.jsp" location="38,905" size="150,55" />
+  <webResource name="index.jsp" path="/module/library/manage/index.jsp" location="679,1010" size="150,55" />
+  <webResource name="index.jsp" path="/module/library/front/index.jsp" location="374,1185" size="150,55" />
+</Struts2Diagram>
+

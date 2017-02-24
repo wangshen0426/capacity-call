@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <!DOCTYPE struts PUBLIC 
+	"-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
+	"http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<!-- 用户相关 <package name="user" extends="struts-default"> <action name="Login" 
+		class="loginAction"> <result>/index.jsp</result> <result name="input">/login.jsp</result> 
+		</action> </package> -->
+	<!-- 设置Struts 2默认的ObjectFactory为spring -->
+	<constant name="struts.objectFactory" value="spring" />
+	<!-- 注解的action配置改变时候不需要重新启动tomcat -->
+	<constant name="struts.convention.classes.reload" value="true" />
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<!-- 开发模式 -->
+	<!-- 开发模式 -->
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+	<constant name="struts.devMode" value="true" />
+
+	<package name="struts-access" extends="struts-default">
+		<interceptors>
+			<interceptor name="accessInterceptor"
+				class="com.cqut.interceptor.AccessInterceptor"></interceptor>
+			<interceptor-stack name="accessInterceptor">
+				<interceptor-ref name="accessInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="accessInterceptor" /><!--（这句是设置所有Action自动调用的拦截器堆栈） -->
+	</package>
+
+	<package name="struts-error" extends="struts-access">
+		<action name="test" class="com.cqut.action.Test" method="exe"></action>
+	</package>
+
+	<!-- 用户登录、修改密码、忘记密码 -->
+	<package name="handlePassword" extends="struts-access">
+		<!-- 登录 -->
+		<action name="login" class="com.cqut.action.handlePassword.Login"
+			method="exe"></action>
+		<!-- 修改密码 -->
+		<action name="changePassword" class="com.cqut.action.handlePassword.ChangePassword"
+			method="exe"></action>
+		<!-- 忘记密码 -->
+		<action name="forgetPassword"></action>
+		<!-- 修改逻辑时钟值 -->
+		<action name="changeLogicNumber" class="com.cqut.action.handlePassword.ChangeLogicNumber"
+			method="exe"></action>
+		<!-- 新用户注册 -->
+		<action name="createUser" class="com.cqut.action.handlePassword.CreateUser"
+			method="exe"></action>
+	</package>
+	<!-- 创建用户组、添加联系人 -->
+	<package name="add" extends="struts-access">
+		<!-- 创建用户组 -->
+		<action name="createGroupes" class="com.cqut.action.add.CreateGroupes"
+			method="exe"></action>
+		<!-- 添加联系人 -->
+		<action name="addLinkman" class="com.cqut.action.add.AddLinkman"
+			method="exe"></action>
+		<!-- 添加用户组成员 -->
+		<action name="addGroupMember" class="com.cqut.action.add.AddGroupMember"
+			method="exe"></action>
+	</package>
+	<!-- 联系人 -->
+	<package name="getLink" extends="struts-access">
+		<!-- 获取联系人数据 -->
+		<action name="getLinkman" class="com.cqut.action.getLink.GetLinkman"
+			method="exe"></action>
+		<!-- 获取消息 -->
+		<action name="getMessage" class="com.cqut.action.getLink.GetMessage"
+			method="exe"></action>
+		<!-- 应答消息 -->
+		<action name="respondMessage" class="com.cqut.action.getLink.RespondMessage"
+			method="exe"></action>
+		<!-- 申请加群 -->
+		<action name="applyJoinGroup" class="com.cqut.action.getLink.ApplyJoinGroup"
+			method="exe"></action>
+		<!-- 获取群组人员表 -->
+		<action name="readGroupData" class="com.cqut.action.getLink.ReadGroupData"
+			method="exe"></action>
+		<!-- 删除联系人 -->
+		<action name="deleteLinkman" class="com.cqut.action.getLink.DeleteLinkman"
+			method="exe"></action>
+	</package>
+	<!-- 首页 -->
+	<package name="homepage" extends="struts-access">
+		<!-- 呼叫列表 -->
+		<action name="getCallList" class="com.cqut.action.homepage.GetCallList"
+			method="exe"></action>
+		<!-- 接收列表 -->
+		<action name="getReceiptList" class="com.cqut.action.homepage.GetReceiptList"
+			method="exe"></action>
+		<!-- 账单 -->
+		<action name="getBill" class="com.cqut.action.homepage.GetBill"
+			method="exe"></action>
+	</package>
+	<!-- 呼叫列表 -->
+	<package name="callList" extends="struts-access">
+		<!-- 呼叫任务 -->
+		<action name="callTaskMessage" class="com.cqut.action.callList.CallTaskMessage"
+			method="exe"></action>
+		<!-- 创建呼叫任务 -->
+		<action name="createCallTask" class="com.cqut.action.callList.CreateCallTask"
+			method="exe"></action>
+		<!-- 呼叫任务详情 -->
+		<action name="readCallTask" class="com.cqut.action.callList.ReadCallTask"
+			method="exe"></action>
+		<!-- 反馈详情 -->
+		<action name="feedBackDetails" class="com.cqut.action.callList.FeedBackDetails"
+			method="exe"></action>
+		<!-- 呼叫历史 -->
+		<action name="getCallHistory" class="com.cqut.action.callList.GetCallHistory"
+			method="exe"></action>
+		<!-- 获取未发送的语音 -->
+		<action name="getNotSendVoice" class="com.cqut.action.callList.GetNotSendVoice"
+			method="exe"></action>
+		<!-- 获取用户回执 -->
+		<action name="getUserReceipt" class="com.cqut.action.callList.GetUserReceipt"
+			method="exe"></action>
+		<!-- 语音呼叫 -->
+		<action name="createTaskVoice" class="com.cqut.action.callList.CreateTaskVoice"
+			method="exe"></action>
+		<!-- 取消呼叫 -->
+		<action name="cancelCall" class="com.cqut.action.callList.CancelCall"
+			method="exe"></action>
+		<!-- 删除任务 -->
+		<action name="deleteCallTask" class="com.cqut.action.callList.DeleteCallTask"
+			method="exe"></action>
+		<!-- 添加任务人员 -->
+		<action name="addCallTaskMan" class="com.cqut.action.callList.AddCallTaskMan"
+			method="exe"></action>
+		<!-- 语音重播 -->
+		<action name="recallVoice" class="com.cqut.action.callList.RecallVoice"
+			method="exe"></action>
+	</package>
+	<!-- 用户组 -->
+	<package name="getGroup" extends="struts-access">
+		<!-- 获取用户组数据 -->
+		<action name="getGroupData" class="com.cqut.action.getGroup.GetGroupData"
+			method="exe"></action>
+		<!-- 获取群主Name和判断用户是否在群组中 -->
+		<action name="getNameOrJudge" class="com.cqut.action.getGroup.GetNameOrJudge"
+			method="exe"></action>
+		<!-- 获取群主和用户组成员ID和Name -->
+		<action name="getMasterOrMember" class="com.cqut.action.getGroup.GetMasterOrMember"
+			method="exe"></action>
+		<!-- 搜索用户组 -->
+		<action name="searchGroupes" class="com.cqut.action.getGroup.SearchGroupes"
+			method="exe"></action>
+		<!-- 删除用户组成员 -->
+		<action name="deleteGroupMember" class="com.cqut.action.getGroup.DeleteGroupMember"
+			method="exe"></action>
+		<!-- 解散该群 -->
+		<action name="dissolveGroup" class="com.cqut.action.getGroup.DissolveGroup"
+			method="exe"></action>
+		<!-- 修改用户组组名 -->
+		<action name="changeGroupName" class="com.cqut.action.getGroup.ChangeGroupName"
+			method="exe"></action>
+	</package>
+	<!-- 备忘录 -->
+	<package name="memorial" extends="struts-access">
+		<!-- 创建备忘录 -->
+		<action name="createMemorial" class="com.cqut.action.memorial.CreateMemorial"
+			method="exe"></action>
+		<!-- 读取备忘录 -->
+		<action name="readMemorial" class="com.cqut.action.memorial.ReadMemorial"
+			method="exe"></action>
+	</package>
+</struts>

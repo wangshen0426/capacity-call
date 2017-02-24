@@ -1,0 +1,68 @@
+package com.cqut.action.callList;
+
+import java.net.URLDecoder;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import com.cqut.dao.common.ICommonDao;
+import com.cqut.util.JJCommon;
+
+public class RecallVoice {
+	private String taskvoiceId;
+	@Resource(name = "commonDao")
+	private ICommonDao commonDao;
+
+	public String getTaskvoiceId() {
+		return taskvoiceId;
+	}
+
+	@SuppressWarnings("deprecation")
+	public void setTaskvoiceId(String taskvoiceId) {
+		this.taskvoiceId = URLDecoder.decode(taskvoiceId);
+	}
+
+	public void exe() {
+		if (taskvoiceId != null) {
+			String selectSql = "(SELECT userId from sessionman sm, taskvoice tv where tv.callTaskId = sm.callTaskId and tv.taskvoiceId = ?) UNION (select MAX(recallTime) userId from receipt where taskvoiceId = ?)";
+			Object[] selectParam = { taskvoiceId, taskvoiceId };
+			List<Object> list = commonDao.executeAndReturn(selectSql,
+					selectParam);
+			if (list != null && list.size() > 1) {
+				int length = list.size();
+				int maxRecallTime = Integer.parseInt(list.get(length - 1) + "") + 1;
+				StringBuilder insertSql = new StringBuilder();
+				insertSql
+						.append("INSERT INTO receipt (receiptId, recallTime, receiptMan, taskVoiceId, voiceRecallTime) VALUES ");
+				Object[] insertParam = new Object[(length - 1) * 5];
+				int index = 0;
+				for (int i = 0; i < length - 1; i++) {
+					StringBuilder receiptId = new StringBuilder();
+					Long currentTime = System.currentTimeMillis();
+					receiptId.append(currentTime);
+					receiptId.append(taskvoiceId);
+					receiptId.append(list.get(i));
+
+					insertSql.append("(?,?,?,?,?),");
+					insertParam[index++] = receiptId.toString();
+					insertParam[index++] = maxRecallTime;
+					insertParam[index++] = list.get(i);
+					insertParam[index++] = taskvoiceId;
+					insertParam[index++] = currentTime;
+				}
+				insertSql.setCharAt(insertSql.length() - 1, ' ');
+
+				String updateSql = "update taskvoice set sendState = 1 where taskVoiceId = ?";
+				Object[] updateParam = { taskvoiceId };
+
+				String[] sqls = { insertSql.toString(), updateSql };
+				Object[][] params = { insertParam, updateParam };
+				commonDao.executeForQueueParam(sqls, params);
+				JJCommon.sendMessageToJS("true");
+			}
+			JJCommon.sendMessageToJS("{}");
+		} else {
+			JJCommon.sendMessageToJS("");
+		}
+	}
+}

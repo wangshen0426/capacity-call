@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <!DOCTYPE struts PUBLIC 
+	"-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
+	"http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<!-- 用户相关 <package name="user" extends="struts-default"> <action name="Login" 
+		class="loginAction"> <result>/index.jsp</result> <result name="input">/login.jsp</result> 
+		</action> </package> -->
+	<!-- 设置Struts 2默认的ObjectFactory为spring -->
+	<constant name="struts.objectFactory" value="spring" />
+	<!-- 注解的action配置改变时候不需要重新启动tomcat -->
+	<constant name="struts.convention.classes.reload" value="true" />
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<!-- 开发模式 -->
+	<!-- 开发模式 -->
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+	<constant name="struts.devMode" value="true" />
+
+	<package name="struts-access" extends="struts-default">
+		<interceptors>
+			<interceptor name="accessInterceptor"
+				class="com.cqut.interceptor.AccessInterceptor"></interceptor>
+			<interceptor-stack name="accessInterceptor">
+				<interceptor-ref name="accessInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="accessInterceptor" /><!--（这句是设置所有Action自动调用的拦截器堆栈） -->
+	</package>
+
+	<package name="struts-error" extends="struts-access">
+		<action name="test" class="com.cqut.action.Test" method="exe"></action>
+	</package>
+	<package name="receiveFile" extends="struts-access">
+		<!-- 接收文件 -->
+		<action name="receiveFile" class="com.cqut.action.ReceiveFile"
+			method="exe"></action>
+		<!-- 读单文件 -->
+		<action name="readOneFile" class="com.cqut.action.ReadOneFile"
+			method="exe"></action>
+		<!-- 读多个文件 -->
+		<action name="readMoreFile" class="com.cqut.action.ReadMoreFile"
+			method="exe"></action>
+		<!-- 第一次整合 -->
+		<action name="firstIntegrate" class="com.cqut.action.FirstIntegrate"
+			method="exe"></action>
+		<!-- 接收第一次整合文件 -->
+		<action name="receiveIntegrateFile" class="com.cqut.action.ReceiveIntegrateFile"
+			method="exe"></action>
+		<!-- 第一次整合文件反馈 -->
+		<action name="feedbackAcceptInfo" class="com.cqut.action.FeedbackAcceptInfo"
+			method="exe"></action>
+		<!-- 接收Android文件 -->
+		<action name="receiveAndroidFile" class="com.cqut.action.ReceiveAndroidFile"
+			method="exe"></action>
+
+	</package>
+
+</struts>

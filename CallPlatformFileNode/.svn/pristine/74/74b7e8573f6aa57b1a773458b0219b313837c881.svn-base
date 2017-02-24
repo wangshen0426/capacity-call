@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RESULT>
+  <component name="jquery-ui-all"><!--jquery-ui-all-->
+	<cssFile src="css/common.css"></cssFile>
+	<cssFile src="css/plugins/jquery-ui-1.8.14.custom.jqgrid/jquery-ui-1.8.14.custom.css"></cssFile>
+  	<cssFile src="css/plugins/jquery-ui-1.8.14.custom.jqgrid/jquery-ui-1.8.14.custom.css"></cssFile>
+  	<cssFile src="css/themes/webTheme/jquery.ui.all.css"></cssFile>
+	<jsFile src="js/jquery/jquery-1.6.2.min.js"></jsFile>
+    <jsFile src="plugins/jquery-ui-1.8.14/jquery.ui.core.js"></jsFile>
+	<jsFile src="plugins/jquery-ui-1.8.14/jquery.ui.accordion.js"></jsFile>
+	<jsFile src="plugins/jquery-ui-1.8.14/jquery.ui.autocomplete.js"></jsFile>
+	<jsFile src="plugins/jquery-ui-1.8.14/jquery.ui.button.js"></jsFile>
+	<jsFile src="plugins/jquery-ui-1.8.14/jquery.ui.datepicker.js"></jsFile>
+	<jsFile src="plugins/jquery-ui-1.8.14/jquery.ui.dialog.js"></jsFile>
+	<jsFile src="plugins/jquery-ui-1.8.14/jquery.ui.draggable.js"></jsFile>
+	<jsFile src="plugins/jquery-ui-1.8.14/jquery.ui.droppable.js"></jsFile>
+	<jsFile src="plugins/jquery-ui-1.8.14/jquery.ui.mouse.js"></jsFile>
+	<jsFile src="plugins/jquery-ui-1.8.14/jquery.ui.position.js"></jsFile>
+	<jsFile src="plugins/jquery-ui-1.8.14/jquery.ui.progressbar.js"></jsFile>
+	<jsFile src="plugins/jquery-ui-1.8.14/jquery.ui.resizable.js"></jsFile>
+	<jsFile src="plugins/jquery-ui-1.8.14/jquery.ui.selectable.js"></jsFile>
+	<jsFile src="plugins/jquery-ui-1.8.14/jquery.ui.slider.js"></jsFile>
+	<jsFile src="plugins/jquery-ui-1.8.14/jquery.ui.sortable.js"></jsFile>
+	<jsFile src="plugins/jquery-ui-1.8.14/jquery.ui.tabs.js"></jsFile>
+	<jsFile src="plugins/jquery-ui-1.8.14/jquery.ui.widget.js"></jsFile>
+  </component>
+  <component name="jquery-plugin"><!--jquery动态加载-->
+    <cssFile src="css/common.css"></cssFile>
+	<cssFile src="css/plugins/jquery-ui-1.8.14.custom.jqgrid/jquery-ui-1.8.14.custom.css"></cssFile>
+	<cssFile src="css/themes/webTheme/jquery.ui.all.css"></cssFile>
+	<jsFile src="js/jquery/jquery-1.6.2.min.js"></jsFile>
+    <jsFile src="plugins/components/jquery.plugin-min.js"></jsFile>	
+  </component>
+  <component name="jqGrid">
+	<cssFile src="css/common.css"></cssFile>
+	<jsFile src="js/util/controler.js"></jsFile>
+	<cssFile src="css/plugins/jquery-ui-1.8.14.custom.jqgrid/jquery-ui-1.8.14.custom.css"></cssFile>
+	<cssFile src="css/plugins/components/ui.jqgrid.css"></cssFile>	
+	<cssFile src="css/plugins/components/jqgrid.css"></cssFile>
+	<cssFile src="css/themes/webTheme/jquery.ui.all.css"></cssFile>
+	<jsFile src="js/jquery/jquery-1.6.2.min.js"></jsFile>
+	<jsFile src="plugins/jquery-ui-1.8.14.custom/jquery-ui-1.8.14.custom.min.js"></jsFile>
+    <jsFile src="js/jquery/i18n/grid.locale-cn.js"></jsFile>
+    <jsFile src="js/jquery/jquery.jqGrid.src.js"></jsFile>
+	<jsFile src="plugins/jquery-ui-1.8.14/jquery.ui.widget.js"></jsFile>
+	<jsFile src="plugins/components/ui.multiselect.js"></jsFile>
+	<jsFile src="js/util/CommonUtil.js"></jsFile>
+	<jsFile src="js/component/messageWin.js"></jsFile>
+  </component>
+  <component name="tree">
+    <cssFile src="css/common.css"></cssFile>
+	<cssFile src="css/plugins/jquery-ui-1.8.14.custom.jqgrid/jquery-ui-1.8.14.custom.css"></cssFile>
+    <cssFile src="css/plugins/components/zTreeStyle/zTreeStyle.css"></cssFile>	
+    <cssFile src="css/themes/webTheme/jquery.ui.all.css"></cssFile>
+	<jsFile src="js/jquery/jquery-1.6.2.min.js"></jsFile>
+	<jsFile src="js/jquery/jquery.ztree-2.6.js"></jsFile>
+	<jsFile src="js/util/CommonUtil.js"></jsFile>
+  </component>
+  <component name="dwr">
+    <cssFile src="css/common.css"></cssFile>
+	<cssFile src="css/plugins/jquery-ui-1.8.14.custom.jqgrid/jquery-ui-1.8.14.custom.css"></cssFile>
+	<cssFile src="css/themes/webTheme/jquery.ui.all.css"></cssFile>
+	<jsFile src="js/jquery/jquery-1.6.2.min.js"></jsFile>
+    <jsFile src="dwr/engine.js"></jsFile>
+  </component>
+  
+  <component name="userDialogValid">
+    <jsFile src="js/component/userDialogValid/userDialogValid.js"></jsFile>
+  </component>
+  
+  <component name="dialog">
+    <cssFile src="css/common.css"></cssFile>
+	<cssFile src="css/plugins/jquery-ui-1.8.14.custom.jqgrid/jquery-ui-1.8.14.custom.css"></cssFile>
+	<cssFile src="css/plugins/jquery-ui-1.8.14/theme/demos.css"></cssFile>
+	<cssFile src="css/themes/webTheme/jquery.ui.all.css"></cssFile>
+	<jsFile src="js/jquery/jquery-1.6.2.min.js"></jsFile>
+	<jsFile src="plugins/jquery-ui-1.8.14.custom/jquery-ui-1.8.14.custom.min.js"></jsFile>
+	<jsFile src="plugins/jquery-ui-1.8.14/jquery.ui.core.js"></jsFile>
+	<jsFile src="plugins/jquery-ui-1.8.14/jquery.ui.widget.js"></jsFile>
+	<jsFile src="plugins/jquery-ui-1.8.14/jquery.ui.button.js"></jsFile>
+	<jsFile src="plugins/jquery-ui-1.8.14/jquery.ui.dialog.js"></jsFile>
+	<jsFile src="plugins/jquery-ui-1.8.14/external/jquery.bgiframe-2.1.2.js"></jsFile>
+    <jsFile src="plugins/cqut/cqut.dialog.js"></jsFile>
+	<jsFile src="plugins/cqut/cqut.field.js"></jsFile>
+	<jsFile src="js/util/DialogUtil.js"></jsFile>
+	<jsFile src="js/util/TemplateModule.js"></jsFile>
+	<jsFile src="js/util/FormUtil.js"></jsFile>
+	<jsFile src="js/util/WindowManage.js"></jsFile>
+	<jsFile src="js/util/CommonUtil.js"></jsFile>
+  </component>
+  <component name="singleselect">
+    <cssFile src="css/common.css"></cssFile>
+	<cssFile src="css/plugins/jquery-ui-1.8.14.custom.jqgrid/jquery-ui-1.8.14.custom.css"></cssFile>
+	<cssFile src="css/themes/webTheme/jquery.ui.all.css"></cssFile>
+	<jsFile src="js/jquery/jquery-1.6.2.min.js"></jsFile>
+    <jsFile src="js/component/selectComponent/selectTable.js"></jsFile>
+	<jsFile src="js/util/CommonUtil.js"></jsFile>
+  </component>
+  <component name="multiselect">
+    <cssFile src="css/common.css"></cssFile>
+	<cssFile src="css/plugins/jquery-ui-1.8.14.custom.jqgrid/jquery-ui-1.8.14.custom.css"></cssFile>
+	<cssFile src="css/themes/webTheme/jquery.ui.all.css"></cssFile>
+	<jsFile src="js/jquery/jquery-1.6.2.min.js"></jsFile>
+    <jsFile src="js/component/MultiSelectComponent/multiSelectTable.js"></jsFile>
+	<jsFile src="js/util/CommonUtil.js"></jsFile>
+  </component>
+  <component name="treeselect">
+    <cssFile src="css/common.css"></cssFile>
+	<cssFile src="css/plugins/jquery-ui-1.8.14/base/jquery.ui.all.css"></cssFile>	
+	<cssFile src="css/plugins/jquery-ui-1.8.14.custom.jqgrid/jquery-ui-1.8.14.custom.css"></cssFile>
+	<jsFile src="js/jquery/jquery-1.6.2.min.js"></jsFile>
+    <jsFile src="js/component/TreeGridComponent/treeGridTable.js"></jsFile>
+	<jsFile src="js/util/CommonUtil.js"></jsFile>
+  </component>
+  <component name="date">
+	<cssFile src="css/common.css"></cssFile>
+	<jsFile src="plugins/jquery-ui-1.8.14/jquery.ui.datepicker.js"></jsFile>
+    <jsFile src="js/component/MultiSelectComponent/multiSelectTable.js"></jsFile>
+  </component>
+  <component name="watermark">
+	<cssFile src="css/common.css"></cssFile>
+	<jsFile src="js/util/jquery.watermarkinput.js"></jsFile>
+  </component>
+  <component name="editor">
+	<cssFile src="plugins/kindeditor/index.css"></cssFile>	
+	<jsFile src="plugins/kindeditor/kindeditor.js"></jsFile>
+  </component>
+  <component name="mask">
+	<cssFile src="css/plugins/jquery-loadmask/jquery.loadmask.css"></cssFile>
+	<jsFile src="js/jquery/jquery.loadmask.js"></jsFile>
+  </component>
+  <component name="file">
+	<cssFile src="css/plugins/components/fileUpload/fileUpload.css"></cssFile>
+	<cssFile src="css/plugins/jquery-loadmask/jquery.loadmask.css"></cssFile>
+	<jsFile src="js/component/fileUploadComponent.js"></jsFile>
+	<jsFile src="js/jquery/jquery.MultiFile.js"></jsFile>
+	<jsFile src="js/jquery/jquery.loadmask.js"></jsFile>
+  </component>
+  
+  <component name="validate">
+	<cssFile src="css/validation/customMessage.css"></cssFile>
+	<cssFile src="css/validation/validationEngine.jquery.css"></cssFile>
+	<jsFile src="js/jquery/jquery.validationEngine-zh_CN.js"></jsFile> 
+	<jsFile src="js/jquery/jquery.validationEngine.js"></jsFile>
+  </component>
+  
+  <component name="suggest">
+	<cssFile src="css/common.css"></cssFile>
+	<cssFile src="css/plugins/jquery-ui-1.8.14.custom.jqgrid/jquery-ui-1.8.14.custom.css"></cssFile>
+	<cssFile src="css/plugins/components/ui.jqgrid.css"></cssFile>	
+	<cssFile src="css/plugins/components/jqgrid.css"></cssFile>
+	<cssFile src="css/themes/webTheme/jquery.ui.all.css"></cssFile>
+	<jsFile src="js/jquery/jquery-1.6.2.min.js"></jsFile>
+	<jsFile src="plugins/jquery-ui-1.8.14.custom/jquery-ui-1.8.14.custom.min.js"></jsFile>
+	<jsFile src="plugins/components/jquery.plugin-min.js"></jsFile>	
+  </component>
+  <component name="ztree3.0">
+	<cssFile src="css/plugins/components/zTreeStyle3.0/zTreeStyle.css"></cssFile>
+	<jsFile src="js/component/zTreeStyle3.0/jquery.ztree.all-3.0.min.js"></jsFile>
+	<jsFile src="js/component/zTreeStyle3.0/plugins/ztree.plugins.so-1.0.js"></jsFile>
+  </component>
+  <component name="util">
+  	<jsFile src="js/util/JsonUtil.js"></jsFile>
+  	<jsFile src="js/util/DateUtil.js"></jsFile>
+  </component>
+    <component name="timepicker">
+  	<cssFile src="css/plugins/jquery-ui-1.8.14/timepicker.css"></cssFile>
+  	<jsFile src="plugins/jquery-ui-1.8.14/jquery.ui.datepicker.js"></jsFile>
+  	<jsFile src="plugins/jquery-ui-1.8.14/jquery-ui-timepicker-addon.js"></jsFile>
+  </component>
+  
+  <component name="tips">
+  	<jsFile src="js/jquery/jquery.blockUI.js"></jsFile>
+  </component>
+  
+</RESULT> 

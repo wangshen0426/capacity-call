@@ -1,0 +1,26 @@
+package com.cqut.util;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class DateUtil {
+	private final static SimpleDateFormat format =  new SimpleDateFormat("yyyy/MM/dd HH:mm:ss"); 
+	private final static SimpleDateFormat format2 =  new SimpleDateFormat("yyyy/MM/dd HH:mm"); 
+	
+	public static long dataString2Millis(String str) {
+		try {
+			Date date = format.parse(str);
+			return date.getTime();
+		} catch (ParseException e) {
+			try {
+				Date date2 = format2.parse(str);
+				return date2.getTime();
+			} catch (ParseException e1) {
+				return System.currentTimeMillis();
+			}
+			
+		}
+	}
+
+}
